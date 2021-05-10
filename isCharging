@@ -1,0 +1,14 @@
+#!/bin/bash
+bat=$(acpi | awk -F " " ' {print $3} ')
+batper=$(acpi | awk -F " " ' {print $4} ' | cut -c 1-4)
+batrem=$(acpi | awk -F " " ' {print $5} ' | cut -c 1-8)
+
+if [[ "$(echo "$bat" | cut -c 1-11)" = "Discharging" ]]; then
+	battery="DIS"
+elif [[ "$(echo "$bat" | cut -c 1-4)" = "Full" ]]; then
+	battery="FULL" 
+elif [[ "$(echo "$bat" | cut -c 1-8)" = "Charging" ]]; then
+	battery="CHA"
+fi
+
+echo "$battery $batper $batrem"
